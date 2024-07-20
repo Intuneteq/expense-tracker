@@ -1,16 +1,18 @@
+import { Provider } from "react-redux";
 import { StatusBar } from "expo-status-bar";
+import { Ionicons } from "@expo/vector-icons";
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { Ionicons } from "@expo/vector-icons";
 
 import AllExpenses from "./screens/AllExpenses";
 import ManageExpense from "./screens/ManageExpense";
 import RecentExpenses from "./screens/RecentExpenses";
-
-import { ExpensesTabParamList, RootStackParamList } from "./navigation/types";
-import { GlobalStyles } from "./constant/styles";
 import IconButton from "./components/UI/IconButton";
+
+import store  from "./store";
+import { GlobalStyles } from "./constant/styles";
+import { ExpensesTabParamList, RootStackParamList } from "./navigation/types";
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 const BottomTabs = createBottomTabNavigator<ExpensesTabParamList>();
@@ -63,6 +65,7 @@ export default function App() {
   return (
     <>
       <StatusBar style="light" />
+      <Provider store={store}>
       <NavigationContainer>
         <Stack.Navigator
           initialRouteName="ExpensesOverview"
@@ -85,6 +88,7 @@ export default function App() {
           />
         </Stack.Navigator>
       </NavigationContainer>
+      </Provider>
     </>
   );
 }

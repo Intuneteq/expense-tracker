@@ -1,5 +1,6 @@
 import React from "react";
-import { FlatList, ListRenderItemInfo, Text } from "react-native";
+import { FlatList, ListRenderItemInfo } from "react-native";
+
 import ExpenseItem from "./ExpenseItem";
 
 type Props = {

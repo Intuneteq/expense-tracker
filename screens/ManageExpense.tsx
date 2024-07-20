@@ -1,14 +1,22 @@
-import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import React, { useLayoutEffect } from "react";
 import { StyleSheet, View } from "react-native";
-import { RootStackParamList } from "../navigation/types";
-import IconButton from "../components/UI/IconButton";
-import { GlobalStyles } from "../constant/styles";
+import { NativeStackScreenProps } from "@react-navigation/native-stack";
+
 import Button from "../components/UI/Button";
+import IconButton from "../components/UI/IconButton";
+
+import { useAppDispatch } from "../store/hooks";
+import { add, remove, update } from "../store/slices/expenses";
+
+import { getFormattedDate } from "../util/date";
+import { GlobalStyles } from "../constant/styles";
+import { RootStackParamList } from "../navigation/types";
 
 type Props = NativeStackScreenProps<RootStackParamList, "ManageExpense">;
 
 function ManageExpense({ route, navigation }: Props) {
+  const dispatch = useAppDispatch();
+
   const id = route.params?.expenseId;
 
   const isEditing = !!id;
@@ -20,6 +28,10 @@ function ManageExpense({ route, navigation }: Props) {
   }, [isEditing, navigation]);
 
   function deleteExpenseHandler() {
+    if (isEditing) {
+      dispatch(remove(id));
+    }
+
     navigation.goBack();
   }
 
@@ -28,6 +40,24 @@ function ManageExpense({ route, navigation }: Props) {
   }
 
   function confirmHandler() {
+    if (isEditing) {
+      dispatch(
+        update({
+          id,
+          description: "updated",
+          amount: 19.99,
+          date: getFormattedDate(new Date()),
+        })
+      );
+    } else {
+      dispatch(
+        add({
+          description: "Tested",
+          amount: 19.99,
+          date: getFormattedDate(new Date()),
+        })
+      );
+    }
     navigation.goBack();
   }
 

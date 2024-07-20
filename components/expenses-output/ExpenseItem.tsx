@@ -1,10 +1,10 @@
 import React from "react";
-import { Pressable, StyleSheet, Text, View } from "react-native";
-import { GlobalStyles } from "../../constant/styles";
-import { getFormattedDate } from "../../util/date";
 import { useNavigation } from "@react-navigation/native";
-import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { Pressable, StyleSheet, Text, View } from "react-native";
+
+import { GlobalStyles } from "../../constant/styles";
 import { RootStackParamList } from "../../navigation/types";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 
 type Props = {
   expense: Expense;
@@ -31,7 +31,7 @@ export default function ExpenseItem({ expense }: Props) {
           <Text style={[styles.textBase, styles.description]}>
             {expense.description}
           </Text>
-          <Text style={styles.textBase}>{getFormattedDate(expense.date)}</Text>
+          <Text style={styles.textBase}>{expense.date}</Text>
         </View>
         <View style={styles.amountContainer}>
           <Text style={styles.amount}>{expense.amount.toFixed(2)}</Text>

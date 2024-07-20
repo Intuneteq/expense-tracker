@@ -7,6 +7,7 @@ import {
   View,
   ViewStyle,
 } from "react-native";
+
 import { GlobalStyles } from "../../constant/styles";
 
 type Props = {
