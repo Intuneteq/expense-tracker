@@ -1,6 +1,6 @@
 import { configureStore, combineReducers } from "@reduxjs/toolkit";
 
-import expensesReducer from "./slices/expenses";
+import expensesReducer from "./slices/expenses/slice";
 
 const rootReducer = combineReducers({
   expenses: expensesReducer,

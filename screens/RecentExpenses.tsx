@@ -5,11 +5,11 @@ import {
   selectError,
   selectExpenses,
   selectStatus,
-} from "../store/slices/expenses";
+} from "../store/slices/expenses/slice";
 
 import { getDateMinusDays } from "../util/date";
 import ExpensesOutput from "../components/expenses-output/ExpensesOutput";
-import { fetchExpenses } from "../store/slices/api";
+import { fetchExpenses } from "../store/slices/expenses/api";
 import LoadingOverlay from "../components/UI/LoadingOverlay";
 import ErrorOverlay from "../components/UI/ErrorOverlay";
 

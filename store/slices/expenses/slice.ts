@@ -4,7 +4,7 @@ import {
   PayloadAction,
 } from "@reduxjs/toolkit";
 
-import { RootState } from "../";
+import { RootState } from "../../";
 
 import {
   storeExpense,

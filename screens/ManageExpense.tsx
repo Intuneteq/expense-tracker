@@ -10,7 +10,7 @@ import {
   selectExpenses,
   selectStatus,
   setStatus,
-} from "../store/slices/expenses";
+} from "../store/slices/expenses/slice";
 
 import { getFormattedDate } from "../util/date";
 import { GlobalStyles } from "../constant/styles";
@@ -20,7 +20,7 @@ import {
   deleteExpense,
   storeExpense,
   updateExpense,
-} from "../store/slices/api";
+} from "../store/slices/expenses/api";
 import LoadingOverlay from "../components/UI/LoadingOverlay";
 import ErrorOverlay from "../components/UI/ErrorOverlay";
 
