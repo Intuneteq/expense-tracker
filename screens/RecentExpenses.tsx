@@ -1,15 +1,26 @@
-import React from "react";
+import React, { useEffect } from "react";
 
-import { useAppSelector } from "../store/hooks";
-import { selectExpenses } from "../store/slices/expenses";
+import { useAppDispatch, useAppSelector } from "../store/hooks";
+import { selectError, selectExpenses, selectStatus } from "../store/slices/expenses";
 
 import { getDateMinusDays } from "../util/date";
 import ExpensesOutput from "../components/expenses-output/ExpensesOutput";
+import { fetchExpenses } from "../store/slices/api";
 
 type Props = {};
 
 export default function RecentExpenses({}: Props) {
+  const dispatch = useAppDispatch();
   const expenses = useAppSelector(selectExpenses);
+  const expensesStatus = useAppSelector(selectStatus);
+  const error = useAppSelector(selectError);
+
+  useEffect(() => {
+    if (expensesStatus === "idle") {
+      dispatch(fetchExpenses());
+    }
+  }, [expensesStatus, dispatch]);
+  
 
   const recentExpenses = expenses.filter((expense) => {
     const today = new Date();

@@ -12,6 +12,7 @@ import { getFormattedDate } from "../util/date";
 import { GlobalStyles } from "../constant/styles";
 import { RootStackParamList } from "../navigation/types";
 import ExpenseForm from "../components/manage-expense/ExpenseForm";
+import { deleteExpense, storeExpense, updateExpense } from "../store/slices/api";
 
 type Props = NativeStackScreenProps<RootStackParamList, "ManageExpense">;
 
@@ -33,7 +34,7 @@ function ManageExpense({ route, navigation }: Props) {
 
   function deleteExpenseHandler() {
     if (isEditing) {
-      dispatch(remove(id));
+      dispatch(deleteExpense(id));
     }
 
     navigation.goBack();
@@ -46,7 +47,7 @@ function ManageExpense({ route, navigation }: Props) {
   function confirmHandler(expense: Omit<Expense, "id">) {
     if (isEditing) {
       dispatch(
-        update({
+        updateExpense({
           ...expense,
           id,
           date: getFormattedDate(new Date(expense.date)),
@@ -54,7 +55,7 @@ function ManageExpense({ route, navigation }: Props) {
       );
     } else {
       dispatch(
-        add({
+        storeExpense({
           ...expense,
           date: getFormattedDate(new Date(expense.date)),
         })

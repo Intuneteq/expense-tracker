@@ -9,7 +9,7 @@ import {
   View,
 } from "react-native";
 import { GlobalStyles } from "../../constant/styles";
-
+// https://expense-tracker-ab47e-default-rtdb.europe-west1.firebasedatabase.app/
 type Props = {
   label: string;
   error: boolean;

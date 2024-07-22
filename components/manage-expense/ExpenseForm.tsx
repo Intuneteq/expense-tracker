@@ -69,6 +69,7 @@ export default function ExpenseForm({
     !inputs.amount.isValid ||
     !inputs.date.isValid ||
     !inputs.description.isValid;
+    
 
   return (
     <View style={styles.form}>
