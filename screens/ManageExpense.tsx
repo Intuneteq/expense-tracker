@@ -2,29 +2,41 @@ import React, { useLayoutEffect } from "react";
 import { StyleSheet, View } from "react-native";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 
-import Button from "../components/UI/Button";
 import IconButton from "../components/UI/IconButton";
 
 import { useAppDispatch, useAppSelector } from "../store/hooks";
-import { add, remove, selectExpenses, update } from "../store/slices/expenses";
+import {
+  selectError,
+  selectExpenses,
+  selectStatus,
+  setStatus,
+} from "../store/slices/expenses";
 
 import { getFormattedDate } from "../util/date";
 import { GlobalStyles } from "../constant/styles";
 import { RootStackParamList } from "../navigation/types";
 import ExpenseForm from "../components/manage-expense/ExpenseForm";
-import { deleteExpense, storeExpense, updateExpense } from "../store/slices/api";
+import {
+  deleteExpense,
+  storeExpense,
+  updateExpense,
+} from "../store/slices/api";
+import LoadingOverlay from "../components/UI/LoadingOverlay";
+import ErrorOverlay from "../components/UI/ErrorOverlay";
 
 type Props = NativeStackScreenProps<RootStackParamList, "ManageExpense">;
 
 function ManageExpense({ route, navigation }: Props) {
   const dispatch = useAppDispatch();
   const expenses = useAppSelector(selectExpenses);
+  const expensesStatus = useAppSelector(selectStatus);
+  const error = useAppSelector(selectError);
 
   const id = route.params?.expenseId;
 
   const isEditing = !!id;
 
-  const selectedExpense = expenses.find(expense => expense.id === id);
+  const selectedExpense = expenses.find((expense) => expense.id === id);
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -32,9 +44,9 @@ function ManageExpense({ route, navigation }: Props) {
     });
   }, [isEditing, navigation]);
 
-  function deleteExpenseHandler() {
+  async function deleteExpenseHandler() {
     if (isEditing) {
-      dispatch(deleteExpense(id));
+      await dispatch(deleteExpense(id));
     }
 
     navigation.goBack();
@@ -44,9 +56,9 @@ function ManageExpense({ route, navigation }: Props) {
     navigation.goBack();
   }
 
-  function confirmHandler(expense: Omit<Expense, "id">) {
+  async function confirmHandler(expense: Omit<Expense, "id">) {
     if (isEditing) {
-      dispatch(
+      await dispatch(
         updateExpense({
           ...expense,
           id,
@@ -54,7 +66,7 @@ function ManageExpense({ route, navigation }: Props) {
         })
       );
     } else {
-      dispatch(
+      await dispatch(
         storeExpense({
           ...expense,
           date: getFormattedDate(new Date(expense.date)),
@@ -62,6 +74,20 @@ function ManageExpense({ route, navigation }: Props) {
       );
     }
     navigation.goBack();
+  }
+
+  function errorHandler() {
+    dispatch(setStatus("idle"));
+  }
+
+  if (expensesStatus === "loading") {
+    return <LoadingOverlay />;
+  }
+
+  if (expensesStatus === "failed") {
+    return (
+      <ErrorOverlay message={`Error: ${error}`} onConfirm={errorHandler} />
+    );
   }
 
   return (

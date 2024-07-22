@@ -19,7 +19,7 @@ const expensesAdapter = createEntityAdapter<Expense>({
   sortComparer: (a, b) => b.date.localeCompare(a.date),
 });
 
-type Status = "idle" | "loading" | "succeeded" | "failed";
+type Status = "idle" | "loading" | "succeeded" | "failed" | "done";
 
 interface IExpensesSlice {
   status: Status;
@@ -47,6 +47,10 @@ const expensesSlice = createSlice({
         id: action.payload.id,
         changes: action.payload,
       });
+    },
+
+    setStatus: (state, action: PayloadAction<Status>) => {
+      state.status = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -123,7 +127,7 @@ const expensesSlice = createSlice({
 });
 
 // Export actions
-export const { add, update, remove } = expensesSlice.actions;
+export const { add, update, remove, setStatus } = expensesSlice.actions;
 
 // Export selectors using the adapter's selectors
 export const {
