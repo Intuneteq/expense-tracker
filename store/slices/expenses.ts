@@ -17,7 +17,7 @@ const expensesSlice = createSlice({
   reducers: {
     add: (state, action: PayloadAction<Omit<Expense, "id">>) => {
       const id = new Date().toString() + Math.random().toString();
-      state.expenses.push({ ...action.payload, id });
+      state.expenses.unshift({ ...action.payload, id });
     },
     remove: (state, action: PayloadAction<string>) => {
       state.expenses = state.expenses.filter((expense) => {
@@ -41,6 +41,8 @@ const expensesSlice = createSlice({
 export const { add, update, remove } = expensesSlice.actions;
 
 export const selectExpenses = (state: RootState) => state.expenses.expenses;
+
+// export const selectExpense = ()
 
 // Export reducer to be used in the store
 export default expensesSlice.reducer;
